@@ -10,10 +10,13 @@ import 'bootstrap';
 
 import App from "./App";
 import router from "./router";
+import './bus';
+import CurrencyFilter from './filters/currency';
 
 Vue.use(VueAxios, axios);
 
 Vue.component('loading',Loading);
+Vue.filter('currency',CurrencyFilter);
 
 Vue.config.productionTip = false;
 axios.defaults.withCredentials = true;
@@ -36,7 +39,7 @@ router.beforeEach((to, from, next) => {
         next();
       } else {
         next({
-          path: "/login"
+          path: "/signin"
         });
       }
     });
