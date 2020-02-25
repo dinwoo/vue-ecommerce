@@ -15,8 +15,8 @@ import CurrencyFilter from './filters/currency';
 
 Vue.use(VueAxios, axios);
 
-Vue.component('loading',Loading);
-Vue.filter('currency',CurrencyFilter);
+Vue.component('loading', Loading);
+Vue.filter('currency', CurrencyFilter);
 
 Vue.config.productionTip = false;
 axios.defaults.withCredentials = true;
