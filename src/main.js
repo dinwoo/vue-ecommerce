@@ -6,6 +6,8 @@ import VueAxios from "vue-axios";
 import Loading from 'vue-loading-overlay';
 import 'vue-loading-overlay/dist/vue-loading.css';
 import 'bootstrap';
+import VeeValidate from 'vee-validate';
+// import zhTWValidate from 'vee-validate/dist/locale/zh_TW';
 
 
 import App from "./App";
@@ -15,6 +17,20 @@ import CurrencyFilter from './filters/currency';
 
 Vue.use(VueAxios, axios);
 
+// VeeValidate.Validator.localize('zh_TW', zhTWValidate);
+Vue.use(VeeValidate);
+// import VueI18n from 'vue-i18n';
+// Vue.use(VueI18n);
+// const i18n = new VueI18n({
+//   locale: 'zhTW'
+// });
+// Vue.use(VeeValidate, {
+//   i18n,
+//   dictionary: {
+//     zhTW
+//   }
+// });
+
 Vue.component('loading', Loading);
 Vue.filter('currency', CurrencyFilter);
 
@@ -23,12 +39,11 @@ axios.defaults.withCredentials = true;
 
 /* eslint-disable no-new */
 new Vue({
-  el: "#app",
-  components: {
-    App
-  },
-  template: "<App/>",
-  router
+  el: '#app',
+  components: { App },
+  template: '<App/>',
+  router,
+  // i18n,
 });
 
 router.beforeEach((to, from, next) => {

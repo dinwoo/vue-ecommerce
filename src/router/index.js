@@ -6,7 +6,9 @@ import Login from "@/components/pages/Login";
 import Dashboard from "@/components/Dashboard";
 import Products from "@/components/pages/Products";
 import Coupons from "@/components/pages/Coupons";
+import Orders from "@/components/pages/Orders";
 import CustomerOrder from "@/components/pages/CustomerOrders";
+import CustomerCheckout from "@/components/pages/CustomerCheckout";
 
 Vue.use(Router);
 
@@ -33,6 +35,12 @@ export default new Router({
           path: "coupons",
           component: Coupons,
           meta: { requiresAuth: true }
+        },
+        {
+          name: "Orders",
+          path: "orders",
+          component: Orders,
+          meta: { requiresAuth: true }
         }
       ]
     },
@@ -45,7 +53,12 @@ export default new Router({
           name: "customer_order",
           path: "/customer_order",
           component: CustomerOrder
-        }
+        },
+        {
+          name: "CustomerCheckout",
+          path: "/customer_checkout/:orderId",
+          component: CustomerCheckout
+        },
       ]
     }
   ]

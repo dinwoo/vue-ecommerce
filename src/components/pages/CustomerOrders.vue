@@ -141,16 +141,13 @@
       <form class="col-md-6" @submit.prevent="createOrder">
         <div class="form-group">
           <label for="useremail">Email</label>
-          <input
-            type="email"
-            class="form-control"
-            name="email"
-            id="useremail"
-            v-model="form.user.email"
-            placeholder="請輸入 Email"
-            required
-          />
-          <span class="text-danger"></span>
+          <input type="email" class="form-control" name="email" id="useremail"
+            v-validate="'required|email'"
+            :class="{'is-invalid': errors.has('email')}"
+            v-model="form.user.email" placeholder="請輸入 Email">
+          <span class="text-danger" v-if="errors.has('email')">
+            {{ errors.first('email') }}
+          </span>
         </div>
 
         <div class="form-group">
@@ -162,8 +159,10 @@
             id="username"
             v-model="form.user.name"
             placeholder="輸入姓名"
+            v-validate="'required'"
+            :class="{'is-invalid':errors.has('name')}"
           />
-          <span class="text-danger"></span>
+          <span class="text-danger" v-if="errors.has('name')">請輸入姓名</span>
         </div>
 
         <div class="form-group">
@@ -171,10 +170,14 @@
           <input
             type="tel"
             class="form-control"
+            name="tel"
             id="usertel"
             v-model="form.user.tel"
             placeholder="請輸入電話"
+            v-validate="'required'"
+            :class="{'is-invalid':errors.has('tel')}"
           />
+          <span class="text-danger" v-if="errors.has('tel')">電話不得留空</span>
         </div>
 
         <div class="form-group">
@@ -186,8 +189,10 @@
             id="useraddress"
             v-model="form.user.address"
             placeholder="請輸入地址"
+            v-validate="'required'"
+            :class="{'is-invalid':errors.has('address')}"
           />
-          <span class="text-danger">地址欄位不得留空</span>
+          <span class="text-danger" v-if="errors.has('address')">地址欄位不得留空</span>
         </div>
 
         <div class="form-group">
@@ -310,10 +315,18 @@ export default {
       const vm = this;
       const url = `${process.env.APIPATH}/api/${process.env.CUSTOMPATH}/order`;
       vm.isLoading = true;
-      this.$http.post(url, { data: vm.form }).then(response => {
-        console.log(response);
-        // vm.getCart();
-        vm.isLoading = false;
+      this.$validator.validate().then((valid) => {
+        if (valid) {
+          // do stuff if not valid.
+          this.$http.post(url, { data: vm.form }).then(response => {
+            console.log(response);
+            if(response.data.success){
+              vm.$router.push(`/customer_checkout/${response.data.orderId}`)
+              // vm.getCart();
+            }
+            vm.isLoading = false;
+          });
+        }
       });
     }
   },
